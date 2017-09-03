@@ -23,8 +23,8 @@ module Bittrex
         req.url(url)
 
         if key
-          req.params[:apikey]   = key
-          req.params[:nonce]    = nonce
+          # req.params[:apikey]   = key
+          # req.params[:nonce]    = nonce
           req.headers[:apisign] = signature(url)
         end
       end
