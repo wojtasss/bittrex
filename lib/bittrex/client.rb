@@ -1,5 +1,6 @@
 require 'faraday'
 require 'base64'
+require 'uri'
 
 module Bittrex
   class Client
@@ -14,8 +15,9 @@ module Bittrex
 
     def get(path, params = {}, headers = {})
       nonce = Time.now.to_i
+      query = URI.encode_www_form(params)
       response = connection.get do |req|
-        url = "#{HOST}/#{path}#{path.include?('?') ? ('&apikey='+key+'&nonce='+nonce.to_s) : ('?apikey='+key+'&nonce='+nonce.to_s)}"
+        url = "#{HOST}/#{path}#{ params.empty? ? ('?apikey='+key+'&nonce='+nonce.to_s) : (params + '&apikey='+key+'&nonce='+nonce.to_s)}"
         req.params.merge!(params)
         req.url(url)
 
