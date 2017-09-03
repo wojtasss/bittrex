@@ -16,14 +16,11 @@ module Bittrex
     def get(path, params = {}, headers = {})
       nonce = Time.now.to_i
       response = connection.get do |req|
-        url = "#{HOST}/#{path}"
+        url = "#{HOST}/#{path}" + (params.empty? ? "?apikey=#{key}&nonce=#{nonce}" : ("?#{URI.encode_www_form(params)}&apikey=#{key}&nonce=#{nonce}"))
         req.params.merge!(params)
-        req.url(url)
 
-        if key
-          req.params["apikey"]   = key
-          req.params["nonce"]    = nonce
-          url_for_signature = req.params.empty? ? url : (url + '?' + URI.encode_www_form(req.params))
+        if key and !params.empty?
+          url_for_signature = url + "&apikey=#{key}&nonce=#{nonce}"
           req.headers["apisign"] = signature(url_for_signature, nonce)
         end
 
