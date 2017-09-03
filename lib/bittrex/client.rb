@@ -18,6 +18,8 @@ module Bittrex
       response = connection.get do |req|
         url = "#{HOST}/#{path}" + (params.empty? ? "?apikey=#{key}&nonce=#{nonce}" : ("?#{URI.encode_www_form(params)}&apikey=#{key}&nonce=#{nonce}"))
         req.params.merge!(params)
+        req.url(url)
+        
         if key and !params.empty?
           req.headers["apisign"] = signature(url, nonce)
         end
