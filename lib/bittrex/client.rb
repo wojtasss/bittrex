@@ -36,7 +36,7 @@ module Bittrex
 
     def signature(url)
       puts "#{url}"
-      OpenSSL::HMAC.hexdigest('sha512', secret.encode("ASCII"), "#{url}".encode("ASCII"))
+      OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha512'), @secret, url)
     end
 
     def connection
