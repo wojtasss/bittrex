@@ -22,6 +22,7 @@ module Bittrex
 
         if key
           req.params["apikey"]   = key
+          req.params["nonce"]    = nonce
           req.headers["apisign"] = signature(url, nonce)
         end
 
@@ -34,7 +35,7 @@ module Bittrex
     private
 
     def signature(url, nonce)
-      OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha512'), secret.encode('ASCII'), "#{url}?apikey=#{key}".encode('ASCII'))
+      OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha512'), secret.encode('ASCII'), "#{url}?apikey=#{key}&nonce=#{nonce}".encode('ASCII'))
     end
 
     def connection
