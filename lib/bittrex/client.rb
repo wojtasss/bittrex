@@ -19,7 +19,7 @@ module Bittrex
         url = "#{HOST}/#{path}" + (params.empty? ? "?apikey=#{key}&nonce=#{nonce}" : ("?#{URI.encode_www_form(params)}&apikey=#{key}&nonce=#{nonce}"))
 
         if key and !params.empty?
-          req.headers["apisign"] = signature(url_for_signature, nonce)
+          req.headers["apisign"] = signature(url, nonce)
         end
 
         puts req.inspect
