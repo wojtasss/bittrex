@@ -15,7 +15,7 @@ module Bittrex
     def get(path, params = {}, headers = {})
       nonce = Time.now.to_i
       response = connection.get do |req|
-        url = "#{HOST}/#{path}#{path.include?('?') ? ('&apikey='+key+'&nonce='+nonce) : ('?apikey='+key+'&nonce='+nonce)}"
+        url = "#{HOST}/#{path}#{path.include?('?') ? ('&apikey='+key+'&nonce='+nonce.to_s) : ('?apikey='+key+'&nonce='+nonce.to_s)}"
         req.params.merge!(params)
         req.url(url)
 
