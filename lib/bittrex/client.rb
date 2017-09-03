@@ -19,14 +19,8 @@ module Bittrex
       response = connection.get do |req|
         url = "#{HOST}/#{path}#{ query.empty? ? ('?apikey='+key+'&nonce='+nonce.to_s) : ('?'+query + '&apikey='+key+'&nonce='+nonce.to_s)}"
         puts url
-        req.params.merge!(params)
+        req.headers[:apisign] = signature(url)
         req.url(url)
-
-        if key
-          # req.params[:apikey]   = key
-          # req.params[:nonce]    = nonce
-          req.headers[:apisign] = signature(url)
-        end
       end
 
       JSON.parse(response.body)
