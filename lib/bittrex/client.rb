@@ -35,7 +35,7 @@ module Bittrex
     private
 
     def signature(url, nonce, params)
-      url_for_signature = params.empty? ? url : (url + '?' URI.encode_www_form(params))
+      url_for_signature = params.empty? ? url : (url + '?' + URI.encode_www_form(params))
       puts url_for_signature
       OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha512'), secret.encode('ASCII'), "#{url}#{params.empty? ? '?' : '&'}apikey=#{key}&nonce=#{nonce}".encode('ASCII'))
     end
