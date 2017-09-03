@@ -32,7 +32,7 @@ module Bittrex
     private
 
     def signature(url, nonce)
-      puts "#{url}?apikey=#{key}&nonce=#{nonce}"
+      puts "#{url}"
       OpenSSL::HMAC.hexdigest('sha512', secret.encode("ASCII"), "#{url}".encode("ASCII"))
     end
 
