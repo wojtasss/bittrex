@@ -26,7 +26,7 @@ module Bittrex
           req.headers[:apisign] = signature(url, nonce)
         end
 
-        puts req.params
+        puts req.params.inspect
       end
 
       JSON.parse(response.body)
@@ -34,9 +34,8 @@ module Bittrex
 
     private
 
-    def signature(url)
-      puts "#{url}"
-      OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha512'), @secret, url)
+    def signature(url, nonce)
+      OpenSSL::HMAC.hexdigest('sha512', secret, "#{url}?apikey=#{key}&nonce=#{nonce}")
     end
 
     def connection
