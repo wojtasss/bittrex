@@ -38,11 +38,11 @@ module Bittrex
     end
 
     def self.open
-      client.get('market/getopenorders').map{|data| new(data) }
+      client.get('market/getopenorders')
     end
 
     def self.history
-      client.get('account/getorderhistory').map{|data| new(data) }
+      client.get('account/getorderhistory')
     end
 
     def self.buylimit market, quantity, rate
