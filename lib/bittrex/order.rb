@@ -46,13 +46,11 @@ module Bittrex
     end
 
     def self.buylimit market, quantity, rate
-      s = client.get("market/buylimit", {
+      client.get("market/buylimit", {
         market: market,
         quantity: quantity,
         rate: rate
         })
-      puts s.inspect
-      s
     end
 
     private

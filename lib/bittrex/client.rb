@@ -23,8 +23,6 @@ module Bittrex
         if key and !params.empty?
           req.headers["apisign"] = signature(url, nonce)
         end
-
-        puts req.inspect
       end
 
       JSON.parse(response.body)
@@ -33,14 +31,12 @@ module Bittrex
     private
 
     def signature(url, nonce)
-      puts url
       OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha512'), secret, url)
     end
 
     def connection
       @connection ||= Faraday.new(:url => HOST) do |faraday|
         faraday.request  :url_encoded
-        faraday.response :logger
         faraday.adapter  Faraday.default_adapter
       end
     end
