@@ -20,7 +20,7 @@ module Bittrex
         req.params.merge!(params)
         req.url(url)
 
-        if key and !params.empty?
+        if key
           req.headers["apisign"] = signature(url, nonce)
         end
       end
