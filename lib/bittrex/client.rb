@@ -26,7 +26,7 @@ module Bittrex
         end
       end
 
-      JSON.parse(response.body)['result']
+      JSON.parse(response.body)
     end
 
     private
