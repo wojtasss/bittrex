@@ -14,6 +14,7 @@ module Bittrex
     end
 
     def self.all
+      puts client.get('account/getbalances').inspect
       client.get('account/getbalances').values.map{|data| new(data) }
     end
 
