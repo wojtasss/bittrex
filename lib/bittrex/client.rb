@@ -15,12 +15,18 @@ module Bittrex
 
     def get(path, params = {}, headers = {})
       nonce = Time.now.to_i
-      query = URI.encode_www_form(params)
       response = connection.get do |req|
-        url = "#{HOST}/#{path}#{ query.empty? ? ('?apikey='+key+'&nonce='+nonce.to_s) : ('?'+query + '&apikey='+key+'&nonce='+nonce.to_s)}"
-        puts url
-        req.headers[:apisign] = signature(url)
+        url = "#{HOST}/#{path}"
+        req.params.merge!(params)
         req.url(url)
+
+        if key
+          req.params[:apikey]   = key
+          req.params[:nonce]    = nonce
+          req.headers[:apisign] = signature(url, nonce)
+        end
+
+        puts req.params
       end
 
       JSON.parse(response.body)
