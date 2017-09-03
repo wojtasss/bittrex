@@ -15,14 +15,14 @@ module Bittrex
     def get(path, params = {}, headers = {})
       nonce = Time.now.to_i
       response = connection.get do |req|
-        url = "#{HOST}/#{path}"
+        url = "#{HOST}/#{path}#{path.include?('?') ? ('&apikey='+key+'&nonce='+nonce) : ('?apikey='+key+'&nonce='+nonce)}"
         req.params.merge!(params)
         req.url(url)
 
         if key
           req.params[:apikey]   = key
           req.params[:nonce]    = nonce
-          req.headers[:apisign] = signature(url, nonce)
+          req.headers[:apisign] = signature(url)
         end
       end
 
@@ -33,7 +33,7 @@ module Bittrex
 
     def signature(url, nonce)
       puts "#{url}?apikey=#{key}&nonce=#{nonce}"
-      OpenSSL::HMAC.hexdigest('sha512', secret.encode("ASCII"), "#{url}?apikey=#{key}&nonce=#{nonce}".encode("ASCII"))
+      OpenSSL::HMAC.hexdigest('sha512', secret.encode("ASCII"), "#{url}".encode("ASCII"))
     end
 
     def connection
