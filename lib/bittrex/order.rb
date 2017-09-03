@@ -53,6 +53,14 @@ module Bittrex
         })
     end
 
+    def self.selllimit market, quantity, rate
+      client.get("market/buylimit", {
+        market: market,
+        quantity: quantity,
+        rate: rate
+        })
+    end
+
     private
 
     def self.orderbook(market, type, depth)
