@@ -45,6 +45,10 @@ module Bittrex
       client.get('account/getorderhistory').map{|data| new(data) }
     end
 
+    def self.buylimit market, quantity, rate
+      client.get("/market/buylimit?market=#{market}&rate=#{rate}&quantity=#{quantity}")
+    end
+
     private
 
     def self.orderbook(market, type, depth)
