@@ -18,6 +18,7 @@ module Bittrex
       query = URI.encode_www_form(params)
       response = connection.get do |req|
         url = "#{HOST}/#{path}#{ params.empty? ? ('?apikey='+key+'&nonce='+nonce.to_s) : (params + '&apikey='+key+'&nonce='+nonce.to_s)}"
+        puts url
         req.params.merge!(params)
         req.url(url)
 
